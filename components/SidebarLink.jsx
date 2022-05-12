@@ -1,10 +1,12 @@
 const SidebarLink = ({ text, Icon, active }) => {
   return (
     <div
-      className={`text-[#d9d9d9] p-2 flex justify-center items-center xl:justify-start text-xl space-x-3 hoverAnimation`}
+      className={`flex justify-start items-center space-x-3 py-2 px-2.5 cursor-pointer  rounded-full hover:bg-primaryText transition duration-200 ease-linear hover:bg-opacity-20 ${
+        active && "font-bold"
+      }`}
     >
-      <Icon />
-      <span className="hidden xl:inline">{text}</span>
+      <Icon className="text-2xl" />
+      <h4 className="text-lg hidden xl:inline">{text}</h4>
     </div>
   );
 };
