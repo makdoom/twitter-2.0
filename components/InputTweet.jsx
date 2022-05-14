@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+import dynamic from "next/dynamic";
 import {
   HiOutlineX,
   HiOutlinePhotograph,
@@ -6,14 +7,25 @@ import {
   HiOutlineLocationMarker,
 } from "react-icons/hi";
 import { BsBarChartLine, BsEmojiSmile } from "react-icons/bs";
+import { Picker } from "emoji-mart";
+import "emoji-mart/css/emoji-mart.css";
 
 const InputTweet = () => {
   const [tweetInput, setTweetInput] = useState("");
   const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef = useRef();
-  const [showEmoji, setShowEmoji] = useState(false);
+  const [showEmojis, setShowEmojis] = useState(false);
 
   const addImageToPost = () => {};
+
+  const addEmoji = (e) => {
+    let sym = e.unified.split("-");
+    let codesArray = [];
+    sym.forEach((el) => codesArray.push("0x" + el));
+    let emoji = String.fromCodePoint(...codesArray);
+    setTweetInput(tweetInput + emoji);
+  };
+  console.log(tweetInput);
 
   return (
     <div
@@ -66,7 +78,7 @@ const InputTweet = () => {
             <div className="icon">
               <BsBarChartLine className="rotate-90 text-xl text-primary" />
             </div>
-            <div className="icon" onClick={() => setShowEmoji(!showEmoji)}>
+            <div className="icon" onClick={() => setShowEmojis(!showEmojis)}>
               <BsEmojiSmile className=" text-xl text-primary" />
             </div>
             <div className="icon">
@@ -75,6 +87,20 @@ const InputTweet = () => {
             <div className="icon">
               <HiOutlineLocationMarker className=" text-xl text-primary" />
             </div>
+
+            {showEmojis && (
+              <Picker
+                onSelect={addEmoji}
+                style={{
+                  position: "absolute",
+                  marginTop: "465px",
+                  marginLeft: -60,
+                  maxWidth: "320px",
+                  borderRadius: "20px",
+                }}
+                theme="dark"
+              />
+            )}
           </div>
           <button> Tweet </button>
         </div>
