@@ -1,8 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap");
 
 @tailwind base;
 body {
-  @apply bg-black font-inter text-[#d9d9d9];
+  @apply bg-primaryBackground font-inter text-[#d9d9d9];
 }
 @tailwind components;
 @tailwind utilities;
@@ -13,5 +13,16 @@ body {
   }
   .icon {
     @apply cursor-pointer w-9 h-9 hover:bg-[#1d9bf0] hover:bg-opacity-20 p-1 flex justify-center items-center rounded-full transition duration-200 ease-linear;
+  }
+}
+
+@layer utilities {
+  ::-webkit-scrollbar {
+    width: 0; /* Remove scrollbar space */
+    background: transparent; /* Optional: just make scrollbar invisible */
+  }
+  /* Optional: show position indicator in red */
+  ::-webkit-scrollbar-thumb {
+    background: #ff0000;
   }
 }

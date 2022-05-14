@@ -1,5 +1,6 @@
 import { useState, useRef } from "react";
-import dynamic from "next/dynamic";
+import { Picker } from "emoji-mart";
+import "emoji-mart/css/emoji-mart.css";
 import {
   HiOutlineX,
   HiOutlinePhotograph,
@@ -7,8 +8,6 @@ import {
   HiOutlineLocationMarker,
 } from "react-icons/hi";
 import { BsBarChartLine, BsEmojiSmile } from "react-icons/bs";
-import { Picker } from "emoji-mart";
-import "emoji-mart/css/emoji-mart.css";
 
 const InputTweet = () => {
   const [tweetInput, setTweetInput] = useState("");
@@ -28,9 +27,7 @@ const InputTweet = () => {
   console.log(tweetInput);
 
   return (
-    <div
-      className={`border-b border-gray-800 p-3 space-x-3 flex overflow-y-scroll`}
-    >
+    <div className={` border p-3 space-x-3 flex overflow-y-scroll`}>
       <img
         src="https://lh3.googleusercontent.com/ogw/ADea4I6K2Iff2mb3KD9xK-vNjlz6HALyQO8g5G_4x_KlHmk=s32-c-mo"
         alt="user-profile"
