@@ -27,11 +27,13 @@ const InputTweet = () => {
   console.log(tweetInput);
 
   return (
-    <div className={` border p-3 space-x-3 flex overflow-y-scroll`}>
+    <div
+      className={`p-3 space-x-3 flex overflow-y-scroll bg-secondaryBackground rounded-xl`}
+    >
       <img
         src="https://lh3.googleusercontent.com/ogw/ADea4I6K2Iff2mb3KD9xK-vNjlz6HALyQO8g5G_4x_KlHmk=s32-c-mo"
         alt="user-profile"
-        className="h-12 w-12 rounded-full xl:mr-2.5"
+        className="h-12 w-12 rounded-full xl:mr-2.5 border-2 border-primaryColor"
       />
       <div className="w-full divide-y divide-gray-800">
         <div>
@@ -60,7 +62,7 @@ const InputTweet = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between border">
           <div className="flex items-center mt-2.5">
             <div className="icon" onClick={() => filePickerRef.current.click()}>
               <HiOutlinePhotograph className="text-2xl text-primary" />
@@ -99,7 +101,12 @@ const InputTweet = () => {
               />
             )}
           </div>
-          <button> Tweet </button>
+          <button
+            className="mt-5 ml-3 rounded-xl px-4 py-2 text-base font-semibold bg-primaryColor text-white hover:bg-hoverPrimary transition duration-200 ease-linear disabled:bg-disabledBg disabled:opacity-70"
+            disabled={!tweetInput.trim() && !selectedFile}
+          >
+            Tweet
+          </button>
         </div>
       </div>
     </div>
