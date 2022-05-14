@@ -8,15 +8,70 @@ import {
   HiOutlineLocationMarker,
 } from "react-icons/hi";
 import { BsBarChartLine, BsEmojiSmile } from "react-icons/bs";
+import {
+  addDoc,
+  collection,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db, storage } from "../firebase";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const InputTweet = () => {
-  const [tweetInput, setTweetInput] = useState("");
-  const [selectedFile, setSelectedFile] = useState(null);
   const filePickerRef = useRef();
+  const [tweetInput, setTweetInput] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState(null);
   const [showEmojis, setShowEmojis] = useState(false);
 
-  const addImageToPost = () => {};
+  // Send Tweet
+  const sendTweet = async () => {
+    if (loading) return;
+    setLoading(true);
 
+    // Tweet ref
+    const docRef = await addDoc(
+      collection(db, "posts", {
+        // id: session.user.uid,
+        // username: session.user.name,
+        // userImg: session.user.image,
+        // tag: session.user.tag,
+        text: tweetInput,
+        timestamp: serverTimestamp(),
+      })
+    );
+
+    // Image Ref
+    const imageRef = ref(storage, `posts/${docRef.id}/image`);
+
+    if (selectedFile) {
+      await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+        const downloadURL = await getDownloadURL(imageRef);
+        await updateDoc(doc(db, "posts", docRef.id), {
+          image: downloadURL,
+        });
+      });
+    }
+
+    setLoading(false);
+    setTweetInput("");
+    setSelectedFile(null);
+    setShowEmojis(false);
+  };
+
+  // Select image and render
+  const addImageToPost = (e) => {
+    const reader = new FileReader();
+    if (e.target.files[0]) {
+      reader.readAsDataURL(e.target.files[0]);
+    }
+
+    reader.onload = (readerEvent) => {
+      setSelectedFile(readerEvent.target.result);
+    };
+  };
+
+  // Add emoji to input
   const addEmoji = (e) => {
     let sym = e.unified.split("-");
     let codesArray = [];
@@ -24,7 +79,6 @@ const InputTweet = () => {
     let emoji = String.fromCodePoint(...codesArray);
     setTweetInput(tweetInput + emoji);
   };
-  console.log(tweetInput);
 
   return (
     <div
@@ -35,8 +89,12 @@ const InputTweet = () => {
         alt="user-profile"
         className="h-12 w-12 rounded-full xl:mr-2.5 border-2 border-primaryColor"
       />
-      <div className="w-full divide-y divide-gray-800">
-        <div>
+      <div className="w-full">
+        <div
+          className={`${selectedFile && "pb-3"} ${
+            tweetInput && "space-y-2.5"
+          } `}
+        >
           <textarea
             value={tweetInput}
             onChange={(e) => setTweetInput(e.target.value)}
@@ -48,7 +106,7 @@ const InputTweet = () => {
           {selectedFile && (
             <div className="relative">
               <div
-                className="flex justify-center items-center text-xl rounded-full cursor-pointer asbolute w-8 h-8 bg-gray-600 transition duration-200 ease-linear top-1 left-1 hover:bg-secondaryText"
+                className="flex justify-center items-center absolute  text-xl rounded-full cursor-pointer asbolute w-8 h-8 bg-primaryBackground transition duration-200 ease-linear top-2 left-2 hover:text-primaryColor"
                 onClick={() => setSelectedFile(null)}
               >
                 <HiOutlineX />
@@ -62,7 +120,7 @@ const InputTweet = () => {
           )}
         </div>
 
-        <div className="flex items-center justify-between border">
+        <div className="flex items-center justify-between">
           <div className="flex items-center mt-2.5">
             <div className="icon" onClick={() => filePickerRef.current.click()}>
               <HiOutlinePhotograph className="text-2xl text-primary" />
@@ -102,8 +160,9 @@ const InputTweet = () => {
             )}
           </div>
           <button
-            className="mt-5 ml-3 rounded-xl px-4 py-2 text-base font-semibold bg-primaryColor text-white hover:bg-hoverPrimary transition duration-200 ease-linear disabled:bg-disabledBg disabled:opacity-70"
+            className="rounded-xl px-4 py-2 text-base font-semibold bg-primaryColor text-white hover:bg-hoverPrimary transition duration-200 ease-linear disabled:bg-disabledBg disabled:opacity-70"
             disabled={!tweetInput.trim() && !selectedFile}
+            onClick={sendTweet}
           >
             Tweet
           </button>
