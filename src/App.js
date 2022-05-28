@@ -1,7 +1,9 @@
+import Home from "./pages/Home";
+
 function App() {
   return (
     <div className="App">
-      <h1>Twitter 2.0</h1>
+      <Home />
     </div>
   );
 }
