@@ -25,16 +25,17 @@ const Post = ({ image }) => {
             </div>
             <span className="text-secondaryText text-sm">2 minutes ago</span>
 
-            <p className="mt-3">Testing tweet 🚀🚀🚀</p>
+            <p className="mt-4">Testing tweet 🚀🚀🚀</p>
             {image && (
               <div className="">
                 <img
                   src="https://www.readree.com/wp-content/uploads/2021/01/Search-Engines-That-Search-for-Duplicate-images.jpg"
                   className="max-h-96 rounded-xl mt-4 object-contain"
+                  alt="temp"
                 />
               </div>
             )}
-            <div className="mt-5 flex w-full">
+            <div className="mt-4 flex w-full">
               <div className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center rounded-lg bg-ternaryBackground">
                 <BsHeart />
                 <span className="ml-2 text-[.79rem]">Likes</span>

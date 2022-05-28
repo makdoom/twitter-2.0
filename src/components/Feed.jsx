@@ -17,6 +17,9 @@ const Feed = () => {
       <Post />
       <Post image />
       <Post />
+      <Post />
+      <Post image />
+      <Post />
     </div>
   );
 };
