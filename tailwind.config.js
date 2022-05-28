@@ -5,6 +5,7 @@ module.exports = {
       colors: {
         primaryBackground: "#152735",
         secondaryBackground: "#172e40",
+        ternaryBackground: "#203d54",
         primaryText: "#cfd3d4",
         secondaryText: "#9eabb4",
         hoverBackground: "#17364a",
