@@ -8,6 +8,15 @@ import {
   HiOutlineLocationMarker,
 } from "react-icons/hi";
 import { BsBarChartLine, BsEmojiSmile } from "react-icons/bs";
+import {
+  addDoc,
+  collection,
+  doc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { db, storage } from "../firebase";
+import { getDownloadURL, ref, uploadString } from "firebase/storage";
 
 const InputTweet = () => {
   const filePickerRef = useRef();
@@ -21,7 +30,32 @@ const InputTweet = () => {
     if (loading) return;
     setLoading(true);
 
-    console.log(tweetInput);
+    try {
+      // Adding tweet post
+      const docRef = await addDoc(collection(db, "posts"), {
+        text: tweetInput,
+        timestamp: serverTimestamp(),
+      });
+      console.log("Document added", docRef.id);
+
+      // Tweet image reference
+      const imageRef = ref(storage, `posts/${docRef.id}/image`);
+
+      // If any image exist in tweet
+      if (selectedFile) {
+        await uploadString(imageRef, selectedFile, "data_url").then(
+          async () => {
+            const downloadURL = await getDownloadURL(imageRef);
+            // Update document with download image url
+            await updateDoc(doc(db, "posts", docRef.id), {
+              image: downloadURL,
+            });
+          }
+        );
+      }
+    } catch (error) {
+      console.error("Error adding document: ", error);
+    }
 
     setLoading(false);
     setTweetInput("");

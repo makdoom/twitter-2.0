@@ -11,7 +11,7 @@ const Widget = () => {
           <HiOutlineSearch className="text-secondaryText text-lg z-50" />
           <input
             type="text"
-            className="bg-transparent outline-none text-[#d9d9d9] absolute inset-0 pl-11  border border-transparent w-full  rounded-full placeholder-secondaryText"
+            className="bg-transparent outline-none  text-[#d9d9d9] absolute inset-0 pl-11  border border-transparent w-full  rounded-xl placeholder-secondaryText"
             placeholder="Search Twitter"
           />
         </div>
@@ -38,8 +38,7 @@ const Widget = () => {
               src={result.userImg}
               width={50}
               height={50}
-              objectFit="cover"
-              className="rounded-full"
+              className="rounded-full object-cover"
               alt="follow"
             />
             <div className="ml-4 leading-5 group">
