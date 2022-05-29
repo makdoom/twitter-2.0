@@ -19,7 +19,9 @@ const Login = () => {
 
       const authenticatedUser = {
         id: response.user.uid,
-        name: response.user.displayName,
+        name:
+          response.user.displayName.charAt(0).toUpperCase() +
+          response.user.displayName.slice(1),
         email: response.user.email,
         image: response.user.photoURL,
         userName: response.user.email.split("@")[0],

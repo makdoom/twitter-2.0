@@ -100,9 +100,9 @@ const InputTweet = () => {
       }`}
     >
       <img
-        src="https://lh3.googleusercontent.com/ogw/ADea4I6K2Iff2mb3KD9xK-vNjlz6HALyQO8g5G_4x_KlHmk=s32-c-mo"
+        src={currentUser?.user?.image}
         alt="user-profile"
-        className="h-12 w-12 rounded-full xl:mr-2.5 border-2 border-primaryColor"
+        className="h-12 w-12 rounded-full xl:mr-2.5 "
       />
       <div className="w-full">
         <div

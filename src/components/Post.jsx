@@ -26,7 +26,9 @@ const Post = ({ id, post, postPage }) => {
         <div className="flex justify-between w-full ">
           <div className="flex flex-col flex-grow w-full">
             <div className="flex items-center">
-              <h4 className="text-[17px] font-bold mr-2">{post?.name}</h4>
+              <h4 className="text-[17px] font-bold mr-2 capitalize">
+                {post?.name}
+              </h4>
               <span className="text-secondaryText text-[14px]">
                 @{post?.userName}
               </span>
