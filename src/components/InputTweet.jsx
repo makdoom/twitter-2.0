@@ -17,8 +17,12 @@ import {
 } from "firebase/firestore";
 import { db, storage } from "../firebase";
 import { getDownloadURL, ref, uploadString } from "firebase/storage";
+import { useSelector } from "react-redux";
+import { selectedUser } from "../features/auth/authSlice";
 
 const InputTweet = () => {
+  const currentUser = useSelector(selectedUser);
+
   const filePickerRef = useRef();
   const [tweetInput, setTweetInput] = useState("");
   const [loading, setLoading] = useState(false);
@@ -33,10 +37,15 @@ const InputTweet = () => {
     try {
       // Adding tweet post
       const docRef = await addDoc(collection(db, "posts"), {
+        id: currentUser?.user.id,
+        name: currentUser?.user.name,
+        userImage: currentUser?.user.image,
+        userName: currentUser?.user.userName,
         text: tweetInput,
         timestamp: serverTimestamp(),
       });
       console.log("Document added", docRef.id);
+      console.log("Document added", currentUser);
 
       // Tweet image reference
       const imageRef = ref(storage, `posts/${docRef.id}/image`);

@@ -5,7 +5,7 @@ const user = JSON.parse(localStorage.getItem("authUser"));
 
 const initialState = {
   user: user ? user : null,
-  userAuthenticated: user ? true : false,
+  isAuthenticated: user ? true : false,
 };
 
 const authSlice = createSlice({
@@ -13,8 +13,8 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     setActiveUser: (state, action) => {
-      state.user = action.payload.user;
-      state.userAuthenticated = action.payload.userAuthenticated;
+      state.user = action.payload;
+      state.isAuthenticated = true;
     },
     setLogoutUser: (state) => initialState,
   },

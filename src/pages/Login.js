@@ -15,27 +15,29 @@ const Login = () => {
   const handleSignIn = async () => {
     try {
       const response = await signInWithPopup(auth, provider);
+      console.log(response);
 
       const authenticatedUser = {
-        user: {
-          name: response.user.displayName,
-          email: response.user.email,
-          image: response.user.photoURL,
-        },
-        userAuthenticated: true,
+        id: response.user.uid,
+        name: response.user.displayName,
+        email: response.user.email,
+        image: response.user.photoURL,
+        userName: response.user.email.split("@")[0],
       };
 
       // Set user in localstorage
       localStorage.setItem("authUser", JSON.stringify(authenticatedUser));
+
       dispatch(setActiveUser(authenticatedUser));
     } catch (error) {
       console.log(error.message);
     }
   };
+  console.log("current user", currentUser);
 
   useEffect(() => {
     // if user authenticated
-    if (currentUser.userAuthenticated) return navigate("/home");
+    if (currentUser.isAuthenticated) return navigate("/home");
   }, [currentUser, navigate]);
 
   return (
