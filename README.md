@@ -1,4 +1,17 @@
-# Getting Started with Create React App
+# TWITTER 2.0
+
+![twitter2.0](https://i.ibb.co/C2ZJfD7/twitter2-0.jpg)
+
+Redesigned and developed Twitter with functionality like tweet, comment, like, delete tweet etc using React, TailwindCSS, and Firebase.
+
+
+## LIVE
+
+Live: [Twitter2.0](https://twitter2-7e92e.web.app/)
+
+
+
+## Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
