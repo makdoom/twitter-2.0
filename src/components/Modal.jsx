@@ -10,7 +10,13 @@ import { BsBarChartLine, BsEmojiSmile } from "react-icons/bs";
 import Moment from "react-moment";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedModal, setModalClose } from "../features/modal/modalSlice";
-import { doc, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  serverTimestamp,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import { selectedUser } from "../features/auth/authSlice";
 import { Picker } from "emoji-mart";
@@ -29,10 +35,6 @@ const Modal = () => {
 
   const closeModal = () => dispatch(setModalClose());
 
-  const sendTweet = () => {
-    console.log(comment);
-  };
-
   // fetching particular tweet and comments
   useEffect(
     () =>
@@ -41,6 +43,21 @@ const Modal = () => {
       }),
     [db, postId]
   );
+
+  // Senc comment
+  const sendComment = async (e) => {
+    e.preventDefault();
+    await addDoc(collection(db, "posts", postId, "comments"), {
+      comment: comment,
+      name: currentUser?.user?.name,
+      userName: currentUser?.user?.userName,
+      userImage: currentUser?.user?.image,
+      timestamp: serverTimestamp(),
+    });
+
+    dispatch(setModalClose());
+    setComment("");
+  };
 
   // Select image and render
   const addImageToPost = (e) => {
@@ -116,7 +133,7 @@ const Modal = () => {
                         </span>
                       </div>
                       <div className="flex flex-col">
-                        <span className="hover:underline text-sm sm:text-[15px]">
+                        <span className="text-sm sm:text-[14px]">
                           <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
                         </span>
                         <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-2">
@@ -206,7 +223,7 @@ const Modal = () => {
                         <button
                           className="rounded-xl px-4 py-2 text-base font-semibold bg-primaryColor text-white hover:bg-hoverPrimary transition duration-200 ease-linear disabled:bg-disabledBg disabled:opacity-70"
                           disabled={!comment.trim() && !selectedFile}
-                          onClick={sendTweet}
+                          onClick={sendComment}
                         >
                           Reply
                         </button>

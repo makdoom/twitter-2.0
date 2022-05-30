@@ -14,6 +14,8 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  orderBy,
+  query,
   setDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -27,6 +29,20 @@ const Post = ({ id, post, postPage }) => {
 
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
+  const [comments, setComments] = useState([]);
+
+  // Fetch post comments
+  useEffect(
+    () =>
+      onSnapshot(
+        query(
+          collection(db, "posts", id, "comments"),
+          orderBy("timestamp", "desc")
+        ),
+        (snapshot) => setComments(snapshot.docs)
+      ),
+    [db]
+  );
 
   // Fetching post likes
   useEffect(() => {
@@ -48,7 +64,7 @@ const Post = ({ id, post, postPage }) => {
       await deleteDoc(doc(db, "posts", id, "likes", currentUser?.user?.id));
     } else {
       await setDoc(doc(db, "posts", id, "likes", currentUser?.user?.id), {
-        userName: currentUser?.user?.name,
+        name: currentUser?.user?.name,
       });
     }
   };
@@ -110,7 +126,10 @@ const Post = ({ id, post, postPage }) => {
                 }}
               >
                 <IoChatbubbleOutline />
-                <span className="ml-2 text-[.79rem]">Comment</span>
+
+                <span className="ml-2 text-[.79rem]">
+                  {comments.length > 0 && comments.length} Comment
+                </span>
               </div>
 
               <div className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
