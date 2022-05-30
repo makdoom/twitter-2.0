@@ -8,10 +8,50 @@ import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
 import { selectedModal, setModalOpen } from "../features/modal/modalSlice";
 import Moment from "react-moment";
+import { selectedUser } from "../features/auth/authSlice";
+import {
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  setDoc,
+} from "firebase/firestore";
+import { db } from "../firebase";
+import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
 
 const Post = ({ id, post, postPage }) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const modalState = useSelector(selectedModal);
+  const currentUser = useSelector(selectedUser);
+
+  const [liked, setLiked] = useState(false);
+  const [likes, setLikes] = useState([]);
+
+  // Fetching post likes
+  useEffect(() => {
+    onSnapshot(collection(db, "posts", id, "likes"), (snapshot) => {
+      setLikes(snapshot.docs);
+    });
+  }, [db, id]);
+
+  // Setting liked flag
+  useEffect(() => {
+    setLiked(
+      likes.findIndex((like) => like.id === currentUser?.user?.id) !== -1
+    );
+  }, [likes]);
+
+  // Like post
+  const likePost = async () => {
+    if (liked) {
+      await deleteDoc(doc(db, "posts", id, "likes", currentUser?.user?.id));
+    } else {
+      await setDoc(doc(db, "posts", id, "likes", currentUser?.user?.id), {
+        userName: currentUser?.user?.name,
+      });
+    }
+  };
 
   return (
     <div className="rounded-xl p-4 mt-4 bg-secondaryBackground cursor-pointer">
@@ -49,9 +89,18 @@ const Post = ({ id, post, postPage }) => {
             )}
 
             <div className="mt-4 flex w-full">
-              <div className="p-2 sm:p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center rounded-lg bg-ternaryBackground">
-                <BsHeart />
-                <span className=" ml-2 text-[.79rem] ">Likes</span>
+              <div
+                className="p-2 sm:p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center rounded-lg bg-ternaryBackground"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  likePost();
+                }}
+              >
+                {liked ? <BsHeartFill className="text-red-500" /> : <BsHeart />}
+
+                <span className=" ml-2 text-[.79rem] ">
+                  {likes.length > 0 && likes.length} Likes
+                </span>
               </div>
               <div
                 className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground"
@@ -68,9 +117,18 @@ const Post = ({ id, post, postPage }) => {
                 <HiOutlineUpload className="text-xl" />
                 <span className="ml-2 text-[.79rem]">Share</span>
               </div>
-              <div className="p-3 px-4 hover:text-red-500 transition duration-200 ease-linear  justify-center mr-4  text-lg flex items-center  rounded-lg border-2 border-ternaryBackground">
-                <HiOutlineTrash />
-              </div>
+              {post?.id === currentUser?.user.id && (
+                <div
+                  className="p-3 px-4 hover:text-red-500 transition duration-200 ease-linear  justify-center mr-4  text-lg flex items-center  rounded-lg border-2 border-ternaryBackground"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    deleteDoc(doc(db, "posts", id));
+                    navigate("/");
+                  }}
+                >
+                  <HiOutlineTrash />
+                </div>
+              )}
             </div>
           </div>
         </div>

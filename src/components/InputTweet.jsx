@@ -103,6 +103,7 @@ const InputTweet = () => {
         src={currentUser?.user?.image}
         alt="user-profile"
         className="h-12 w-12 rounded-full xl:mr-2.5 "
+        referrerPolicy="no-referrer"
       />
       <div className="w-full">
         <div
