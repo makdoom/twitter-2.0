@@ -35,18 +35,21 @@ const Modal = () => {
 
   const closeModal = () => dispatch(setModalClose());
 
+  //  TODO: IMPLENT ADD VIDEO FUNCTIONALITY
+
   // fetching particular tweet and comments
   useEffect(
     () =>
       onSnapshot(doc(db, "posts", postId), (snapshot) => {
         setPost(snapshot.data());
       }),
-    [db, postId]
+    [postId]
   );
 
   // Senc comment
   const sendComment = async (e) => {
     e.preventDefault();
+    // TODO: ADD IMAGE FUNCTIONALITY
     await addDoc(collection(db, "posts", postId, "comments"), {
       comment: comment,
       name: currentUser?.user?.name,

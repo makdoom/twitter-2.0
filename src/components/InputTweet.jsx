@@ -29,6 +29,8 @@ const InputTweet = () => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [showEmojis, setShowEmojis] = useState(false);
 
+  //  TODO: IMPLENT ADD VIDEO FUNCTIONALITY
+
   // Send Tweet
   const sendTweet = async () => {
     if (loading) return;

@@ -15,7 +15,7 @@ const Feed = () => {
         query(collection(db, "posts"), orderBy("timestamp", "desc")),
         (snapshot) => setPosts(snapshot.docs)
       ),
-    [db]
+    []
   );
 
   return (

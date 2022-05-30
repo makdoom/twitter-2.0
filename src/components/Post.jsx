@@ -1,12 +1,12 @@
 import {
   HiDotsHorizontal,
-  HiOutlineUpload,
+  HiOutlineSwitchHorizontal,
   HiOutlineTrash,
 } from "react-icons/hi";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
-import { selectedModal, setModalOpen } from "../features/modal/modalSlice";
+import { setModalOpen } from "../features/modal/modalSlice";
 import Moment from "react-moment";
 import { selectedUser } from "../features/auth/authSlice";
 import {
@@ -41,7 +41,7 @@ const Post = ({ id, post, postPage }) => {
         ),
         (snapshot) => setComments(snapshot.docs)
       ),
-    [db]
+    [id]
   );
 
   // Fetching post likes
@@ -49,14 +49,14 @@ const Post = ({ id, post, postPage }) => {
     onSnapshot(collection(db, "posts", id, "likes"), (snapshot) => {
       setLikes(snapshot.docs);
     });
-  }, [db, id]);
+  }, [id]);
 
   // Setting liked flag
   useEffect(() => {
     setLiked(
       likes.findIndex((like) => like.id === currentUser?.user?.id) !== -1
     );
-  }, [likes]);
+  }, [likes, currentUser]);
 
   // Like post
   const likePost = async () => {
@@ -70,15 +70,16 @@ const Post = ({ id, post, postPage }) => {
   };
 
   return (
-    <div className="rounded-xl p-4 mt-4 bg-secondaryBackground cursor-pointer">
+    <div
+      className="rounded-xl p-4 mt-4 bg-secondaryBackground cursor-pointer"
+      onClick={() => navigate(`/home/postpage/${id}`)}
+    >
       <div className="flex">
-        {!postPage && (
-          <img
-            src={post?.userImage}
-            alt="user-profile"
-            className="h-11 w-11 rounded-full mr-4"
-          />
-        )}
+        <img
+          src={post?.userImage}
+          alt="user-profile"
+          className="h-11 w-11 rounded-full mr-4"
+        />
         <div className="flex justify-between w-full ">
           <div className="flex flex-col flex-grow w-full">
             <div className="flex items-center">
@@ -93,7 +94,7 @@ const Post = ({ id, post, postPage }) => {
               <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
             </span>
 
-            <p className="mt-4">{post?.text}</p>
+            <p className={`mt-4 ${postPage && "text-lg"}`}>{post?.text}</p>
             {post?.image && (
               <div className="w-[90%]">
                 <img
@@ -104,9 +105,9 @@ const Post = ({ id, post, postPage }) => {
               </div>
             )}
 
-            <div className="mt-4 flex w-full">
+            <div className="mt-6 flex w-full">
               <div
-                className="p-2 sm:p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center rounded-lg bg-ternaryBackground"
+                className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center rounded-lg bg-ternaryBackground"
                 onClick={(e) => {
                   e.stopPropagation();
                   likePost();
@@ -115,7 +116,8 @@ const Post = ({ id, post, postPage }) => {
                 {liked ? <BsHeartFill className="text-red-500" /> : <BsHeart />}
 
                 <span className=" ml-2 text-[.79rem] ">
-                  {likes.length > 0 && likes.length} Likes
+                  {likes.length > 0 && likes.length}{" "}
+                  <span className="hidden sm:inline-block">Likes</span>
                 </span>
               </div>
               <div
@@ -128,13 +130,22 @@ const Post = ({ id, post, postPage }) => {
                 <IoChatbubbleOutline />
 
                 <span className="ml-2 text-[.79rem]">
-                  {comments.length > 0 && comments.length} Comment
+                  {comments.length > 0 && comments.length}{" "}
+                  <span className="hidden sm:inline-block">Comment</span>
                 </span>
               </div>
 
               <div className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
-                <HiOutlineUpload className="text-xl" />
-                <span className="ml-2 text-[.79rem]">Share</span>
+                <HiOutlineSwitchHorizontal className="text-xl" />
+                <span className="ml-2 text-[.79rem] hidden sm:inline-block">
+                  Retweet
+                </span>
+              </div>
+              <div className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
+                <HiOutlineSwitchHorizontal className="text-xl" />
+                <span className="ml-2 text-[.79rem] hidden sm:inline-block">
+                  Share
+                </span>
               </div>
               {post?.id === currentUser?.user.id && (
                 <div
@@ -151,7 +162,7 @@ const Post = ({ id, post, postPage }) => {
             </div>
           </div>
         </div>
-        <HiDotsHorizontal className="mt-1.5 text-xl text-secondaryText" />
+        <HiDotsHorizontal className=" icon h-8 w-8 p-2 mt-1.5 text-base text-secondaryText" />
       </div>
     </div>
   );
