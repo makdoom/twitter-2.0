@@ -39,8 +39,6 @@ const PostPage = () => {
     [db, postId]
   );
 
-  console.log("postpage", post);
-
   return (
     <div className="flex-grow sm:ml-[65px] xl:ml-[340px] max-w-3xl">
       <div className="bg-primaryBackground text-primaryText flex items-center p-2 sticky top-0 z-50 ">

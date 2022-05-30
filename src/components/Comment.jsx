@@ -22,25 +22,10 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const Comment = ({ id, comment }) => {
-  console.log(comment);
   const currentUser = useSelector(selectedUser);
 
   const [liked, setLiked] = useState(false);
   const [likes, setLikes] = useState([]);
-  //   const [comments, setComments] = useState([]);
-
-  // Fetch post comments
-  //   useEffect(
-  //     () =>
-  //       onSnapshot(
-  //         query(
-  //           collection(db, "posts", id, "comments"),
-  //           orderBy("timestamp", "desc")
-  //         ),
-  //         (snapshot) => setComments(snapshot.docs)
-  //       ),
-  //     [id]
-  //   );
 
   // Fetching post likes
   useEffect(() => {
@@ -68,7 +53,7 @@ const Comment = ({ id, comment }) => {
   };
 
   return (
-    <div className="flex p-3 cursor-pointer border-b border-ternaryBackground">
+    <div className="flex p-3 cursor-pointer border-b border-ternaryBackground last:border-0">
       <img
         src={comment?.userImage}
         alt="user-profile"
@@ -100,7 +85,7 @@ const Comment = ({ id, comment }) => {
         </div>
         <div className=" mt-3 flex justify-between items-center w-[90%]">
           <div
-            className="p-3 hover:bg-opacity-80 justify-center mr-4 text-sm flex items-center rounded-lg bg-ternaryBackground"
+            className="p-3 hover:text-primaryColor transition-all duration-200 ease-linear hover:bg-opacity-80 justify-center mr-4 text-sm flex items-center rounded-lg bg-ternaryBackground"
             onClick={(e) => {
               e.stopPropagation();
               likePost();
@@ -115,13 +100,13 @@ const Comment = ({ id, comment }) => {
               <p className=" ml-2 text-[.79rem]">{likes.length}</p>
             )}{" "}
           </div>
-          <div className="p-3 hover:bg-opacity-80  justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
+          <div className="p-3 hover:text-primaryColor transition-all duration-200 ease-linear hover:bg-opacity-80  justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
             <IoChatbubbleOutline className="text-[1rem]" />
           </div>
-          <div className="p-3 hover:bg-opacity-80  justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
+          <div className="p-3 hover:text-primaryColor transition-all duration-200 ease-linear hover:bg-opacity-80  justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
             <HiOutlineSwitchHorizontal className="text-[1rem]" />
           </div>
-          <div className="p-3 hover:bg-opacity-80  justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
+          <div className="p-3 hover:text-primaryColor transition-all duration-200 ease-linear hover:bg-opacity-80  justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
             <HiOutlineUpload className="text-[1rem]" />
           </div>
         </div>

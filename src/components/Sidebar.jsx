@@ -5,6 +5,7 @@ import {
   HiOutlineUser,
   HiOutlineDotsHorizontal,
 } from "react-icons/hi";
+import { FiLogOut } from "react-icons/fi";
 import { VscBell } from "react-icons/vsc";
 import { IoMailOutline } from "react-icons/io5";
 import { BsTwitter } from "react-icons/bs";
@@ -32,6 +33,7 @@ const Sidebar = () => {
         <SidebarLink text="Messages" Icon={IoMailOutline} />
         <SidebarLink text="Bookmarks" Icon={HiOutlineBookmark} />
         <SidebarLink text="Profile" Icon={HiOutlineUser} />
+        <SidebarLink text="Logout" Icon={FiLogOut} logout />
 
         {/* Tweet Button */}
         <button
@@ -51,6 +53,7 @@ const Sidebar = () => {
           src={currentUser?.user?.image}
           alt="user-profile"
           className="h-10 w-10 rounded-full xl:mr-2.5 "
+          referrerPolicy="no-referrer"
         />
         <div className="hidden xl:inline flex-1">
           <h4 className="font-semibold capitalize">{`${currentUser?.user?.name.slice(

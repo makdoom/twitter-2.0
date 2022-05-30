@@ -2,6 +2,7 @@ import {
   HiDotsHorizontal,
   HiOutlineSwitchHorizontal,
   HiOutlineTrash,
+  HiOutlineUpload,
 } from "react-icons/hi";
 import { IoChatbubbleOutline } from "react-icons/io5";
 import { BsHeart, BsHeartFill } from "react-icons/bs";
@@ -94,7 +95,7 @@ const Post = ({ id, post, postPage }) => {
               <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
             </span>
 
-            <p className={`mt-4 ${postPage && "text-lg"}`}>{post?.text}</p>
+            <p className={`mt-4 ${postPage && "text-xl"}`}>{post?.text}</p>
             {post?.image && (
               <div className="w-[90%]">
                 <img
@@ -107,7 +108,7 @@ const Post = ({ id, post, postPage }) => {
 
             <div className="mt-6 flex w-full">
               <div
-                className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center rounded-lg bg-ternaryBackground"
+                className="p-3 hover:text-primaryColor transition-all duration-200 ease-linear hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center rounded-lg bg-ternaryBackground"
                 onClick={(e) => {
                   e.stopPropagation();
                   likePost();
@@ -121,7 +122,7 @@ const Post = ({ id, post, postPage }) => {
                 </span>
               </div>
               <div
-                className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground"
+                className="p-3 hover:text-primaryColor transition-all duration-200 ease-linear hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground"
                 onClick={(e) => {
                   e.stopPropagation();
                   dispatch(setModalOpen(id));
@@ -135,14 +136,14 @@ const Post = ({ id, post, postPage }) => {
                 </span>
               </div>
 
-              <div className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
+              <div className="p-3 hover:text-primaryColor transition-all duration-200 ease-linear hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
                 <HiOutlineSwitchHorizontal className="text-xl" />
                 <span className="ml-2 text-[.79rem] hidden sm:inline-block">
                   Retweet
                 </span>
               </div>
-              <div className="p-3 hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
-                <HiOutlineSwitchHorizontal className="text-xl" />
+              <div className="p-3 hover:text-primaryColor transition-all duration-200 ease-linear hover:bg-opacity-80 w-full justify-center mr-4  text-sm flex items-center  rounded-lg bg-ternaryBackground">
+                <HiOutlineUpload className="text-xl" />
                 <span className="ml-2 text-[.79rem] hidden sm:inline-block">
                   Share
                 </span>

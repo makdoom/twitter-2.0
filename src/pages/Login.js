@@ -15,7 +15,6 @@ const Login = () => {
   const handleSignIn = async () => {
     try {
       const response = await signInWithPopup(auth, provider);
-      console.log(response);
 
       const authenticatedUser = {
         id: response.user.uid,
@@ -35,7 +34,6 @@ const Login = () => {
       console.log(error.message);
     }
   };
-  console.log("current user", currentUser);
 
   useEffect(() => {
     // if user authenticated

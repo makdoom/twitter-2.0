@@ -46,8 +46,6 @@ const InputTweet = () => {
         text: tweetInput,
         timestamp: serverTimestamp(),
       });
-      console.log("Document added", docRef.id);
-      console.log("Document added", currentUser);
 
       // Tweet image reference
       const imageRef = ref(storage, `posts/${docRef.id}/image`);
@@ -154,11 +152,11 @@ const InputTweet = () => {
                 />
               </div>
 
-              <div className="icon">
-                <BsBarChartLine className="rotate-90 text-xl text-primary" />
-              </div>
               <div className="icon" onClick={() => setShowEmojis(!showEmojis)}>
                 <BsEmojiSmile className=" text-xl text-primary" />
+              </div>
+              <div className="icon">
+                <BsBarChartLine className="rotate-90 text-xl text-primary" />
               </div>
               <div className="icon">
                 <HiOutlineCalendar className=" text-xl text-primary" />

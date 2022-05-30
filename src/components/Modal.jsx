@@ -21,9 +21,11 @@ import { db } from "../firebase";
 import { selectedUser } from "../features/auth/authSlice";
 import { Picker } from "emoji-mart";
 import "emoji-mart/css/emoji-mart.css";
+import { useNavigate } from "react-router-dom";
 
 const Modal = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const modalState = useSelector(selectedModal);
   const currentUser = useSelector(selectedUser);
   const postId = modalState?.postId;
@@ -60,6 +62,7 @@ const Modal = () => {
 
     dispatch(setModalClose());
     setComment("");
+    navigate(`/home/postPage/${postId}`);
   };
 
   // Select image and render
@@ -142,6 +145,16 @@ const Modal = () => {
                         <p className="text-[#d9d9d9] text-[15px] sm:text-base mt-2">
                           {post?.text}
                         </p>
+
+                        {post?.image && (
+                          <div className="w-[90%]">
+                            <img
+                              src={post?.image}
+                              className="max-h-[15rem] rounded-xl mt-4 object-cover"
+                              alt="tweetimg"
+                            />
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
